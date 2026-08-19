@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Comercial Huguito</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+  <link rel="stylesheet" th:href="@{/css/index.css}">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+</head>
+<body>
+<!-- Navbar -->
+<div id="navbar"></div>
+<script th:src="@{/js/cliente/navbar.js}"></script>
+
+
+<!-- Sección con banner rotativo -->
+<div id="slider"></div>
+<script th:src="@{/js/cliente/slider.js}"></script>
+
+
+<div class="container py-5">
+  <h2 class="text-center mb-5 animate-on-scroll">Nuestros Productos</h2>
+
+  <div class="row g-4">
+    <div class="col-md-3" th:each="producto : ${productos}">
+      <div class="card service-card producto-card h-100"
+           th:attr="data-nombre=${producto.nombre},
+              data-descripcion=${producto.descripcion},
+              data-precio=${producto.precio},
+              data-imagen=@{'/uploads/' + ${producto.imagen}}">
+      <img th:src="@{'/uploads/' + ${producto.imagen}}" class="card-img-top" th:alt="${producto.nombre}">
+        <div class="card-body text-center">
+          <h5 class="card-title" th:text="${producto.nombre}">Nombre</h5>
+          <p class="card-text text-success fw-bold">S/. <span th:text="${producto.precio}">0.00</span></p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="productoModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-lg">
+    <div class="modal-content producto-modal">
+      <div class="modal-header">
+        <h5 class="modal-title" id="modalNombre"></h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+      </div>
+      <div class="modal-body d-flex flex-column align-items-center">
+        <img id="modalImagen" class="img-fluid rounded mb-3" alt="Imagen del producto">
+        <p id="modalDescripcion"></p>
+        <h5 class="text-success fw-bold">S/. <span id="modalPrecio"></span></h5>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Carrousel -->
+<div class="brands-row-container">
+  <img th:src="@{/img/marca_brother.png}" alt="Brother" class="brand-img" />
+  <img th:src="@{/img/marca_pegasus.png}" alt="Pegasus" class="brand-img" />
+  <img th:src="@{/img/marca_siruba.png}" alt="Siruba" class="brand-img" />
+  <img th:src="@{/img/marca_zoje.png}" alt="Zoje" class="brand-img" />
+</div>
+
+<!-- Testimonios -->
+<div id="testimoniosContainer"></div>
+<script th:src="@{/js/cliente/testimonios.js}"></script>
+
+<!-- Sección de Preguntas Frecuentes -->
+<div id="faqContainer"></div>
+<script th:src="@{/js/cliente/faq.js}"></script>
+
+<!-- Footer -->
+<div id="footer-container"></div>
+<script src="/js/cliente/footer.js"></script>
+
+<!-- Scripts -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+<script src="/js/index.js"></script>
+<script th:src="@{/js/cliente/modalindex.js}"></script>
+<script>
+  // Animación al hacer scroll
+  const observerOptions = {
+    threshold: 0.1
+  };
+
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+      }
+    });
+  }, observerOptions);
+
+  document.querySelectorAll('.animate-on-scroll').forEach(element => {
+    observer.observe(element);
+  });
+</script>
+</body>
+</html>

@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>Lista de Empleados</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+  <link rel="stylesheet" th:href="@{/css/paneladministrador.css}">
+</head>
+<body>
+<!-- Navbar superior -->
+<div id="navbar-container"></div>
+<script th:src="@{/js/administrador/navbaradmin.js}"></script>
+
+<div class="container mt-4">
+  <div class="d-flex justify-content-between mb-3">
+    <h2>Lista de Clientes</h2>
+    <a href="/administrador/panelclientes/nuevo" class="btn btn-primary">Nuevo Cliente</a>
+    <a href="/administrador/panelclientes/exportar-pdf" class="btn btn-danger">Exportar PDF</a>
+    <a href="/administrador/panelclientes/exportar-excel" class="btn btn-success">Exportar Excel</a>
+  </div>
+
+  <table class="table table-bordered table-striped">
+    <thead class="table-dark">
+    <tr>
+      <th>ID</th>
+      <th>Nombres</th>
+      <th>Apellidos</th>
+      <th>Correo</th>
+      <th>Teléfono</th>
+      <th>Dirección</th>
+      <th>Rol</th>
+      <th>Fecha de Registro</th>
+      <th>Acciones</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="cliente : ${clientes}">
+      <td th:text="${cliente.id}"></td>
+      <td th:text="${cliente.firstName}"></td>
+      <td th:text="${cliente.lastName}"></td>
+      <td th:text="${cliente.email}"></td>
+      <td th:text="${cliente.phone}"></td>
+      <td th:text="${cliente.address}"></td>
+      <td th:text="${cliente.role}"></td>
+      <td th:text="${#dates.format(cliente.createdAt, 'dd/MM/yyyy')}"></td>
+      <td>
+        <a th:href="@{/administrador/panelclientes/editar/{id}(id=${cliente.id})}" class="btn btn-warning btn-sm">Editar</a>
+        <a th:href="@{/administrador/panelclientes/eliminar/{id}(id=${cliente.id})}" class="btn btn-danger btn-sm"
+           onclick="return confirm('¿Estás seguro de eliminar este cliente?')">Eliminar</a>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+</div>
+
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="/js/panelgeneral.js"></script>
+</body>
+</html>
